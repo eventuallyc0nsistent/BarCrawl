@@ -16,10 +16,12 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+
 var app = {
     // Application Constructor
     initialize: function() {
         this.bindEvents();
+
     },
     // Bind Event Listeners
     //
@@ -33,7 +35,28 @@ var app = {
     // The scope of 'this' is the event. In order to call the 'receivedEvent'
     // function, we must explicitly call 'app.receivedEvent(...);'
     onDeviceReady: function() {
-        app.receivedEvent('deviceready');
+   
+    var options = {
+  enableHighAccuracy: true,
+  timeout: 5000,
+  maximumAge: 0
+};
+
+function success(pos) {
+  var crd = pos.coords;
+
+  console.log('Your current position is:');
+  console.log('Latitude : ' + crd.latitude);
+  console.log('Longitude: ' + crd.longitude);
+  console.log('More or less ' + crd.accuracy + ' meters.');
+};
+
+function error(err) {
+  console.warn('ERROR(' + err.code + '): ' + err.message);
+};
+
+navigator.geolocation.getCurrentPosition(success, error, options);
+        
     },
     // Update DOM on a Received Event
     receivedEvent: function(id) {
