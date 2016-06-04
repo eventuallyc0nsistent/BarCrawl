@@ -17,11 +17,11 @@
  * under the License.
  */
 
-
 var app = {
     // Application Constructor
     initialize: function() {
         this.bindEvents();
+
     },
     // Bind Event Listeners
     //
@@ -35,8 +35,41 @@ var app = {
     // The scope of 'this' is the event. In order to call the 'receivedEvent'
     // function, we must explicitly call 'app.receivedEvent(...);'
     onDeviceReady: function() {
-        app.receivedEvent('deviceready');
+   
+      var options = {
+        enableHighAccuracy: true,
+        timeout: 5000,
+        maximumAge: 0
+      };
+
+      function success(pos) {
+        var crd = pos.coords;
+
+
+        var latitude = crd.latitude;
+        var longitude = crd.longitude;
+        
+        require(['esri/urlUtils','esri/map','esri/tasks/RouteTask', 'dojo/domReady', 'dijit/layout/ContentPane'], function(
+              urlUtils,Map
+          ){
+          var map = new Map("map",{
+              basemap:"streets",
+              center:[longitude, latitude],
+              zoom: 18
+          });
+        });
+
+      };
+
+      function error(err) {
+        console.warn('ERROR(' + err.code + '): ' + err.message);
+      };
+
+      // get current location and show on map
+      navigator.geolocation.getCurrentPosition(success, error, options);
+        
     },
+
     // Update DOM on a Received Event
     receivedEvent: function(id) {
         var listeningElement = $(id + ' .listening');
