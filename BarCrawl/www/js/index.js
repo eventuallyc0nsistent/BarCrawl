@@ -45,10 +45,18 @@ var app = {
 function success(pos) {
   var crd = pos.coords;
 
-  console.log('Your current position is:');
-  console.log('Latitude : ' + crd.latitude);
-  console.log('Longitude: ' + crd.longitude);
-  console.log('More or less ' + crd.accuracy + ' meters.');
+
+  var latitude = crd.latitude;
+  var longitude = crd.longitude;
+  require(['esri/urlUtils','esri/map','esri/tasks/RouteTask'],function(
+        urlUtils,Map
+    ){
+    var map =new Map("map",{
+        basemap:"streets",
+        center:[longitude,latitude],
+        zoom: 18
+    });
+  });
 };
 
 function error(err) {
