@@ -48,7 +48,7 @@ var app = {
 
         var latitude = crd.latitude;
         var longitude = crd.longitude;
-        
+       
         require(["esri/urlUtils",
         "esri/config",
         "esri/map",

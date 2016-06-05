@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-rc1/jquery.js"></script>
+</head>
+<body>
+<script>
+	$(document).ready(function(){
+		function reqListener () {
+  				console.log(JSON.parse(this.response));
+		}
+
+		var oReq = new XMLHttpRequest();
+			oReq.addEventListener("load", reqListener);
+			oReq.open("GET", "http://localhost:3000/search");
+			oReq.send();
+	})
+</script>
+
+</body>
+</html>
