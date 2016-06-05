@@ -42,6 +42,9 @@ var app = {
       maximumAge: 0
     };
     navigator.geolocation.getCurrentPosition(success, error, options);
+    function error(err){
+      console.log(err);
+    }
     function success(pos) {
       var crd = pos.coords;
 
@@ -53,8 +56,11 @@ var app = {
         "esri/config",
         "esri/map",
         "esri/graphic",
+        "esri/geometry/Point",
         "esri/tasks/RouteTask",
         "esri/tasks/RouteParameters",
+
+        "esri/IdentityManager",
 
         "esri/tasks/FeatureSet",
         "esri/symbols/SimpleMarkerSymbol",
@@ -70,99 +76,99 @@ var app = {
         "dijit/layout/BorderContainer",
         "dijit/layout/ContentPane",
         "dijit/form/HorizontalSlider",
-        "dijit/form/HorizontalRuleLabels"], function (urlUtils, esriConfig, Map, Graphic, RouteTask, RouteParameters,
+        "dijit/form/HorizontalRuleLabels"], function (urlUtils, esriConfig, Map, Graphic, Point, RouteTask, RouteParameters, IdentityManager,
                                                       FeatureSet, SimpleMarkerSymbol, SimpleLineSymbol,
                                                       Color, array, on, dom, registry, OAuthInfo, esriId) {
 
+        esriConfig.defaults.io.corsEnabledServers.push("https://route.arcgis.com");
+        //   urlUtils.addProxyRule({
+        //   urlPrefix: "route.arcgis.com",  
+        //   proxyUrl: "/sproxy/"
+        // });
         var map = new Map("map", {
           basemap: "streets",
-
           center: [longitude, latitude],
           zoom: 16
         });
+
         var bars = [];
 
         var routeParams = new RouteParameters();
         routeParams.stops = new FeatureSet();
-        var routeTask = new RouteTask("http://route.arcgis.com/arcgis/rest/services/World/Route/NAServer/Route_World");
+        var routeTask = new RouteTask("https://route.arcgis.com/arcgis/rest/services/World/Route/NAServer/Route_World");
         var stopSymbol = new SimpleMarkerSymbol().setStyle(SimpleMarkerSymbol.STYLE_CROSS).setSize(15);
         stopSymbol.outline.setWidth(3);
         var routeSymbol = {
           "Beer Route": new SimpleLineSymbol().setColor(new Color([0, 0, 255, 0.5])).setWidth(5)
         };
-        routeParams.outSpartialReference = {"wkid": 102100};
+        routeParams.outSpatialReference = {"wkid": 102100};
+        // routeTask.on('solve-complete', showRoute);
+        map.on('load', onLoadMaps);
 
+        function onLoadMaps(){
 
-        function addSomeGraphic() {
+            var url = 'http://localhost:3000/search?latitude=' + latitude + '&longitude=' + longitude;
+            jQuery.ajax({
+                url: url,
+                success: function (response) {
 
-          var url = 'http://localhost:3000/search?latitude=' + latitude + '&longitude=' + longitude;
-          jQuery.get(url, function (response) {
+                    //coordinates of coord
+                    var coords = new Point(longitude, latitude);
+                    var startGraphic = new Graphic(coords, stopSymbol);
+                    startGraphic.symbol = stopSymbol;
+                    bars.push(startGraphic);
 
-            //coordinates of coord
-            var coords = {
-              "geometry": {
-                "type": "Point",
-                "x": latitude,
-                "y": longitude
-              }
-            };
-            var startGraphic = new esri.Graphic(coords, stopSymbol);
-            startGraphic.symbol = stopSymbol;
-            bars.push(startGraphic);
+                    response.businesses.forEach(function (business) {
 
-            response.businesses.forEach(function (business) {
+                      var lat = business.location.coordinate.latitude;
+                      var lon = business.location.coordinate.longitude;
+                      
+                      var geom = new Point(lon, lat);
+                      var graphic = new Graphic(geom, stopSymbol);
+                      graphic.symbol = stopSymbol;
+                      bars.push(graphic);
 
-              var lat = business.location.coordinate.latitude;
-              var lon = business.location.coordinate.longitude;
-              var geom = {
-                'geometry': {
-                  'type': 'Point',
-                  'x': lon,
-                  'y': lat
+                    });
+
+                    for (var i = 0; i < bars.length; ++i) {
+                      map.graphics.add(bars[i]);
+                      routeParams.stops.features.push(
+                          map.graphics.add(bars[i])
+                      );
+                    }
+                    console.log(routeParams);
+                    routeTask.solve(routeParams, showRoute, function (err) {
+                      console.log(err);
+                    });
+
+                },
+                async: false
+            });
+        }
+
+        function clearRoutes() {
+              console.log('clearing routes')
+                for (var i = bars.length - 1; i >= 0; i--) {
+                    map.graphics.remove(bars.splice(i, 1)[0]);
                 }
-              }
-            });
+                bars = [];
+        }
 
-            var graphic = new esri.Graphic(geom, stopSymbol);
-            graphic.symbol = stopSymbol;
-            bars.push(graphic);
+        function showRoute(evt) {
+              console.log('Routing solved');
+              clearRoutes();
+              array.forEach(evt.result.routeResults, function (routeResult, i) {
+                  console.log('hello');
+                  ///symbol is not setting
+                  bars.push(
+                      map.graphics.add(
+                          routeResult.route.setSymbol(routeSymbol['Beer Route'])
+                      )
+                  );
+                  console.log(routeResult);
+              });
 
-
-            for (var i = 0; i < bars.length; ++i) {
-              routeParams.stops.features.push(
-                  map.graphics.add(bars[i])
-              )
-            }
-            routeTask.solve(routeParams);
-          });
-
-          function clearRoutes() {
-            for (var i = bars.length - 1; i >= 0; i--) {
-              map.graphics.remove(bars.splice(i, 1)[0]);
-            }
-            bars = [];
-          }
-
-          routeTask.on('solve-complete', showRouter);
-          function showRouter(evt) {
-            clearRoutes();
-            array.forEach(evt.result.routeResults, function (routeResult, i) {
-              ///symbol is not setting
-              bars.push(
-                  map.graphics.add(
-                      routeResult.route.setSymbol(routeSymbol['Beer Route'])
-                  )
-              );
-              console.log(routeResult);
-            });
-
-          }
-
-        };
-
-
-        map.on("load", addSomeGraphic);
-
+        }
 
       });
 
