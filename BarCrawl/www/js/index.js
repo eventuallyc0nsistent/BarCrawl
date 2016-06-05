@@ -65,15 +65,17 @@ var app = {
         "dojo/on",
         "dojo/dom",
         "dijit/registry",
-
+        "esri/arcgis/OAuthInfo",
+        "esri/IdentityManager",
         "dijit/layout/BorderContainer",
         "dijit/layout/ContentPane",
         "dijit/form/HorizontalSlider",
         "dijit/form/HorizontalRuleLabels"], function(
               urlUtils, esriConfig, Map, Graphic, RouteTask, RouteParameters,
         FeatureSet, SimpleMarkerSymbol, SimpleLineSymbol,           
-        Color, array, on, dom, registry
+        Color, array, on, dom, registry,OAuthInfo,esriId
           ){
+      
            var map = new Map("map",{
               basemap:"streets",
 
@@ -84,8 +86,12 @@ var app = {
           var routeParams = new RouteParameters();
               routeParams.stops = new FeatureSet();
           var routeTask = new RouteTask("http://route.arcgis.com/arcgis/rest/services/World/Route/NAServer/Route_World");
+
           var stopSymbol = new SimpleMarkerSymbol().setStyle(SimpleMarkerSymbol.STYLE_CROSS).setSize(15);
             stopSymbol.outline.setWidth(3);
+          var routeSymbol = {
+              "Beer Route": new SimpleLineSymbol().setColor(new Color([0,0,255,0.5])).setWidth(5)
+          }
           routeParams.outSpartialReference={"wkid":102100};
         
           
@@ -118,8 +124,18 @@ var app = {
                 map.graphics.add(bar_array[i])
               )
             }
-            routeTask.solve(routeParams);
+           routeTask.solve(routeParams);
 
+          }
+          function clearRoutes(){
+            for(var i=bar_array.length-1;i>=0;i--){
+              map.graphics.remove(bar_array.splice(i,1)[0]);
+            }
+            bar_array=[];
+          }
+          routeTask.on('solve-complete',showRouter);
+          function showRouter(evt){
+            console.log(evt);
           }
         
           // routeParams.stops.features.push(
