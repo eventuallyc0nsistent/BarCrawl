@@ -91,7 +91,7 @@ var app = {
             stopSymbol.outline.setWidth(3);
           var routeSymbol = {
               "Beer Route": new SimpleLineSymbol().setColor(new Color([0,0,255,0.5])).setWidth(5)
-          }
+          };
           routeParams.outSpartialReference={"wkid":102100};
         
           
@@ -135,7 +135,17 @@ var app = {
           }
           routeTask.on('solve-complete',showRouter);
           function showRouter(evt){
-            console.log(evt);
+            clearRoutes();
+            array.forEach(evt.result.routeResults,function(routeResult,i){
+              ///symbol is not setting
+              bar_array.push(
+                  map.graphics.add(
+                    routeResult.route.setSymbol(routeSymbol['Beer Route'])
+                  )
+                );
+               console.log(routeResult);
+            });
+          
           }
         
           // routeParams.stops.features.push(
