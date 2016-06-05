@@ -65,8 +65,10 @@ app.get('/search',function(req,res){
 	var url_parts = url.parse(req.url, true);
 	var query = url_parts.query;
 	var lat_long = query.latitude+','+query.longitude;
+	var count = query.size;
+	var radius = 1609;
 
-	yelp.search({category_filter:'bars,pubs',ll:lat_long})
+	yelp.search({category_filter:'bars,pubs', ll:lat_long, limit:count, radius_fitler: radius})
 	    .then(function(data){
 	    	res.setHeader('Access-Control-Allow-Origin', '*');
 			res.send(data)

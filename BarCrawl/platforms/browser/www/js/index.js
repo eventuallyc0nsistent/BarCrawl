@@ -17,6 +17,16 @@
  * under the License.
  */
 
+function getQueryVariable(variable){
+       var query = window.location.search.substring(1);
+       var vars = query.split("&");
+       for (var i=0;i<vars.length;i++) {
+               var pair = vars[i].split("=");
+               if(pair[0] == variable){return pair[1];}
+       }
+       return(false);
+}
+
 var app = {
   // Application Constructor
   initialize: function() {
@@ -96,8 +106,7 @@ var app = {
         var routeParams = new RouteParameters();
         routeParams.stops = new FeatureSet();
         var routeTask = new RouteTask("https://route.arcgis.com/arcgis/rest/services/World/Route/NAServer/Route_World");
-        var stopSymbol = new SimpleMarkerSymbol().setStyle(SimpleMarkerSymbol.STYLE_CROSS).setSize(15);
-        stopSymbol.outline.setWidth(3);
+        var stopSymbol = new SimpleMarkerSymbol().setStyle(SimpleMarkerSymbol.STYLE_CIRCLE).setSize(12).setColor(new Color([255, 153, 0, 1]));
         var routeSymbol = {
           "Beer Route": new SimpleLineSymbol().setColor(new Color([0, 0, 255, 0.5])).setWidth(5)
         };
@@ -106,14 +115,15 @@ var app = {
         map.on('load', onLoadMaps);
 
         function onLoadMaps(){
-
-            var url = 'http://localhost:3000/search?latitude=' + latitude + '&longitude=' + longitude;
+            var barCount = getQueryVariable('bars');
+            var url = 'http://localhost:3000/search?latitude=' + latitude + '&longitude=' + longitude +'&size=' + barCount;
             jQuery.ajax({
                 url: url,
                 success: function (response) {
 
                     //coordinates of coord
                     var coords = new Point(longitude, latitude);
+                    var symbol = stopSymbol;
                     var startGraphic = new Graphic(coords, stopSymbol);
                     startGraphic.symbol = stopSymbol;
                     bars.push(startGraphic);
@@ -130,13 +140,17 @@ var app = {
 
                     });
 
+
                     for (var i = 0; i < bars.length; ++i) {
+                      map.graphics.add(bars[i]);
+                    };
+
+                    for (var i = 1; i < bars.length; ++i) {
                       map.graphics.add(bars[i]);
                       routeParams.stops.features.push(
                           map.graphics.add(bars[i])
                       );
                     }
-                    console.log(routeParams);
                     routeTask.solve(routeParams, showRoute, function (err) {
                       console.log(err);
                     });
@@ -147,7 +161,6 @@ var app = {
         }
 
         function clearRoutes() {
-              console.log('clearing routes')
                 for (var i = bars.length - 1; i >= 0; i--) {
                     map.graphics.remove(bars.splice(i, 1)[0]);
                 }
@@ -155,17 +168,14 @@ var app = {
         }
 
         function showRoute(evt) {
-              console.log('Routing solved');
-              clearRoutes();
-              array.forEach(evt.result.routeResults, function (routeResult, i) {
-                  console.log('hello');
+              // clearRoutes();
+              array.forEach(evt.routeResults, function (routeResult, i) {
                   ///symbol is not setting
                   bars.push(
                       map.graphics.add(
                           routeResult.route.setSymbol(routeSymbol['Beer Route'])
                       )
                   );
-                  console.log(routeResult);
               });
 
         }
