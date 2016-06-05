@@ -49,13 +49,41 @@ var app = {
         var latitude = crd.latitude;
         var longitude = crd.longitude;
         
-        require(['esri/urlUtils','esri/map','esri/tasks/RouteTask', 'dojo/domReady', 'dijit/layout/ContentPane'], function(
-              urlUtils,Map
+        require(["esri/urlUtils",
+        "esri/config",
+        "esri/map",
+        "esri/graphic",            
+        "esri/tasks/RouteTask",            
+        "esri/tasks/RouteParameters",
+
+        "esri/tasks/FeatureSet",            
+        "esri/symbols/SimpleMarkerSymbol",
+        "esri/symbols/SimpleLineSymbol",          
+
+        "esri/Color",
+        "dojo/_base/array",
+        "dojo/on",
+        "dojo/dom",
+        "dijit/registry",
+
+        "dijit/layout/BorderContainer",
+        "dijit/layout/ContentPane",
+        "dijit/form/HorizontalSlider",
+        "dijit/form/HorizontalRuleLabels"], function(
+              urlUtils, esriConfig, Map, Graphic, RouteTask, RouteParameters,
+        FeatureSet, SimpleMarkerSymbol, SimpleLineSymbol,           
+        Color, array, on, dom, registry
           ){
+          var routeParams = new RouteParameters();
+              routeParams.stops = new FeatureSet();
+          var routeTask = new RouteTask("http://route.arcgis.com/arcgis/rest/services/World/Route/NAServer/Route_World");
+          var stopSymbol = new SimpleMarkerSymbol().setStyle(SimpleMarkerSymbol.STYLE_CROSS).setSize(15);
+            stopSymbol.outline.setWidth(3);
           var map = new Map("map",{
               basemap:"streets",
+
               center:[longitude, latitude],
-              zoom: 18
+              zoom: 16
           });
         });
 
