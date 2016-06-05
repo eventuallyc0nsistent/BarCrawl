@@ -72,95 +72,99 @@ var app = {
         "dijit/form/HorizontalSlider",
         "dijit/form/HorizontalRuleLabels"], function(
               urlUtils, esriConfig, Map, Graphic, RouteTask, RouteParameters,
-        FeatureSet, SimpleMarkerSymbol, SimpleLineSymbol,           
-        Color, array, on, dom, registry,OAuthInfo,esriId
+              FeatureSet, SimpleMarkerSymbol, SimpleLineSymbol,           
+              Color, array, on, dom, registry,OAuthInfo,esriId
           ){
       
-           var map = new Map("map",{
-              basemap:"streets",
+           var map = new Map("map", {
+                                      basemap:"streets",
 
-              center:[longitude, latitude],
-              zoom: 16
-          });
-          var bar_array = [];
+                                      center:[longitude, latitude],
+                                      zoom: 16
+                                    });
+          var bars = [];
+
           var routeParams = new RouteParameters();
               routeParams.stops = new FeatureSet();
           var routeTask = new RouteTask("http://route.arcgis.com/arcgis/rest/services/World/Route/NAServer/Route_World");
-
           var stopSymbol = new SimpleMarkerSymbol().setStyle(SimpleMarkerSymbol.STYLE_CROSS).setSize(15);
-            stopSymbol.outline.setWidth(3);
+              stopSymbol.outline.setWidth(3);
           var routeSymbol = {
-              "Beer Route": new SimpleLineSymbol().setColor(new Color([0,0,255,0.5])).setWidth(5)
-          };
-          routeParams.outSpartialReference={"wkid":102100};
-        
-          
-         //coordinates of frist test obj
-          var coords = {"geometry":{
-                          "type":"Point",
-                          "x":-73.98684,
-                          "y":40.60261
-          }};
-          //coordinates of second test ob
-          var coords1= {"geometry":{
-                          "type":"Point",
-                          "x":-73.99764,
-                          "y":40.60475
-          }};
-          //test obj1
-          var temp = new esri.Graphic(coords,stopSymbol);
-              temp.symbol = stopSymbol;
-          //test obj2
-          var temp1 = new esri.Graphic(coords1,stopSymbol);
-              temp1.symbol = stopSymbol;
-          bar_array.push(temp);
-          bar_array.push(temp1);
+                  "Beer Route": new SimpleLineSymbol().setColor(new Color([0,0,255,0.5])).setWidth(5)
+              };
+              routeParams.outSpartialReference={"wkid":102100};
 
+
+            function addSomeGraphic(){
+
+                var url = 'http://localhost:3000/search?latitude='+latitude+'&longitude='+longitude; 
+                jQuery.get(url, function(response){
+                  
+                    //coordinates of coord
+                    var coords = {"geometry":{
+                                    "type":"Point",
+                                    "x":latitude,
+                                    "y":longitude,
+                    }};
+                    var startGraphic = new esri.Graphic(coords, stopSymbol);
+                    startGraphic.symbol = stopSymbol;
+                    bars.push(startGraphic);
+
+                    response.businesses.forEach(function(business){
+
+                        var lat = business.location.coordinate.latitude;
+                        var lon = business.location.coordinate.longitude;
+                        var geom = {
+                            'geometry': {
+                                'type': 'Point',
+                                'x': lon,
+                                'y': lat
+                            }
+                        };
+
+                        var graphic = new esri.Graphic(geom, stopSymbol);
+                        graphic.symbol = stopSymbol;
+                        bars.push(graphic);
+
+
+                        for(var i=0;i<bars.length;++i){
+                          routeParams.stops.features.push(
+                            map.graphics.add(bars[i])
+                          )
+                        }
+                       routeTask.solve(routeParams);
+                    });
+
+                    function clearRoutes(){
+                        for(var i=bars.length-1;i>=0;i--){
+                          map.graphics.remove(bars.splice(i,1)[0]);
+                        }
+                        bars=[];
+                      }
+                      
+                      routeTask.on('solve-complete',showRouter);
+                      function showRouter(evt){
+                          clearRoutes();
+                          array.forEach(evt.result.routeResults,function(routeResult,i){
+                            ///symbol is not setting
+                            bars.push(
+                                map.graphics.add(
+                                  routeResult.route.setSymbol(routeSymbol['Beer Route'])
+                                )
+                              );
+                             console.log(routeResult);
+                          });
+                        
+                      }
+                      
+                });
+
+            }
+            
           map.on("load",addSomeGraphic);
-
-          function addSomeGraphic(){
-            for(var i=0;i<bar_array.length;++i){
-              routeParams.stops.features.push(
-                map.graphics.add(bar_array[i])
-              )
-            }
-           routeTask.solve(routeParams);
-
-          }
-          function clearRoutes(){
-            for(var i=bar_array.length-1;i>=0;i--){
-              map.graphics.remove(bar_array.splice(i,1)[0]);
-            }
-            bar_array=[];
-          }
-          routeTask.on('solve-complete',showRouter);
-          function showRouter(evt){
-            clearRoutes();
-            array.forEach(evt.result.routeResults,function(routeResult,i){
-              ///symbol is not setting
-              bar_array.push(
-                  map.graphics.add(
-                    routeResult.route.setSymbol(routeSymbol['Beer Route'])
-                  )
-                );
-               console.log(routeResult);
-            });
           
-          }
-        
-          // routeParams.stops.features.push(
 
-          //     map.graphics.add(
-          //       new esri.Graphic(coords,stopSymbol)
-          //     )
-          // );
-         
-          
-         
-
-        });
-
-      };
+      });
 
       function error(err) {
         console.warn('ERROR(' + err.code + '): ' + err.message);
@@ -170,6 +174,7 @@ var app = {
       navigator.geolocation.getCurrentPosition(success, error, options);
         
     },
+
 
     // Update DOM on a Received Event
     receivedEvent: function(id) {

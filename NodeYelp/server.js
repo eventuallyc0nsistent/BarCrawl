@@ -4,7 +4,9 @@ var Yelp = require('yelp')
     oauthSignature = require('oauth-signature'),
     request = require('request'),
     query_string = require('querystring'),
-    _ = require('lodash')
+    _ = require('lodash'),
+    fs = require('fs'),
+
     method_override = require('method-override'),
     body_parser = require('body-parser');
 var nonce = require('nonce')();
@@ -59,11 +61,20 @@ app.listen(3000);
 app.get('/search',function(req,res){
 	
 	
-	
-	yelp.search({category_filter:'bars,pubs',location:'Montreal'})
+	var url = require('url');
+	var url_parts = url.parse(req.url, true);
+	var query = url_parts.query;
+	var lat_long = query.latitude+','+query.longitude;
+
+	yelp.search({category_filter:'bars,pubs',ll:lat_long})
 	    .then(function(data){
 	    	res.setHeader('Access-Control-Allow-Origin', '*');
 			res.send(data)
+			fs.writeFile('output.json',data,'utf8',function(err,data){
+				if(err)
+					throw err;
+				
+			})
 	    })
 	    .catch(function(err){
 		res.send(err)
