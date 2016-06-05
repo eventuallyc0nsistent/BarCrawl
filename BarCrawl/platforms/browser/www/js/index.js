@@ -74,17 +74,64 @@ var app = {
         FeatureSet, SimpleMarkerSymbol, SimpleLineSymbol,           
         Color, array, on, dom, registry
           ){
-          var routeParams = new RouteParameters();
-              routeParams.stops = new FeatureSet();
-          var routeTask = new RouteTask("http://route.arcgis.com/arcgis/rest/services/World/Route/NAServer/Route_World");
-          var stopSymbol = new SimpleMarkerSymbol().setStyle(SimpleMarkerSymbol.STYLE_CROSS).setSize(15);
-            stopSymbol.outline.setWidth(3);
-          var map = new Map("map",{
+           var map = new Map("map",{
               basemap:"streets",
 
               center:[longitude, latitude],
               zoom: 16
           });
+          var bar_array = [];
+          var routeParams = new RouteParameters();
+              routeParams.stops = new FeatureSet();
+          var routeTask = new RouteTask("http://route.arcgis.com/arcgis/rest/services/World/Route/NAServer/Route_World");
+          var stopSymbol = new SimpleMarkerSymbol().setStyle(SimpleMarkerSymbol.STYLE_CROSS).setSize(15);
+            stopSymbol.outline.setWidth(3);
+          routeParams.outSpartialReference={"wkid":102100};
+        
+          
+         //coordinates of frist test obj
+          var coords = {"geometry":{
+                          "type":"Point",
+                          "x":-73.98684,
+                          "y":40.60261
+          }};
+          //coordinates of second test ob
+          var coords1= {"geometry":{
+                          "type":"Point",
+                          "x":-73.99764,
+                          "y":40.60475
+          }};
+          //test obj1
+          var temp = new esri.Graphic(coords,stopSymbol);
+              temp.symbol = stopSymbol;
+          //test obj2
+          var temp1 = new esri.Graphic(coords1,stopSymbol);
+              temp1.symbol = stopSymbol;
+          bar_array.push(temp);
+          bar_array.push(temp1);
+
+          map.on("load",addSomeGraphic);
+
+          function addSomeGraphic(){
+            for(var i=0;i<bar_array.length;++i){
+              routeParams.stops.features.push(
+                map.graphics.add(bar_array[i])
+              )
+            }
+            routeTask.solve(routeParams);
+
+          }
+        
+          // routeParams.stops.features.push(
+
+          //     map.graphics.add(
+          //       new esri.Graphic(coords,stopSymbol)
+          //     )
+          // );
+         
+          
+         
+
         });
 
       };
