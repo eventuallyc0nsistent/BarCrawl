@@ -1,0 +1,202 @@
+[
+  {
+    "rating": 4.5,
+    "mobile_url": "http://m.yelp.com/biz/caledonia-bar-new-york-3?utm_campaign=yelp_api&utm_medium=api_v2_search&utm_source=JPmz_ORwBuWxIBf5hAMb2w",
+    "name": "Caledonia Bar",
+    "phone": "2127344300",
+    "location": {
+      "latitude": 40.776327,
+      "longitude": -73.953213
+    }
+  },
+  {
+    "rating": 4.5,
+    "mobile_url": "http://m.yelp.com/biz/arts-and-crafts-beer-parlor-new-york?utm_campaign=yelp_api&utm_medium=api_v2_search&utm_source=JPmz_ORwBuWxIBf5hAMb2w",
+    "name": "Arts and Crafts Beer Parlor",
+    "phone": "6466785263",
+    "location": {
+      "latitude": 40.7327283010334,
+      "longitude": -73.9977158235951
+    }
+  },
+  {
+    "rating": 4.0,
+    "mobile_url": "http://m.yelp.com/biz/cock-and-bull-new-york?utm_campaign=yelp_api&utm_medium=api_v2_search&utm_source=JPmz_ORwBuWxIBf5hAMb2w",
+    "name": "Cock & Bull",
+    "phone": "2128191900",
+    "location": {
+      "latitude": 40.7560908823673,
+      "longitude": -73.9804858350908
+    }
+  },
+  {
+    "rating": 4.0,
+    "mobile_url": "http://m.yelp.com/biz/district-tap-house-new-york?utm_campaign=yelp_api&utm_medium=api_v2_search&utm_source=JPmz_ORwBuWxIBf5hAMb2w",
+    "name": "District Tap House",
+    "phone": "2122211822",
+    "location": {
+      "latitude": 40.753982,
+      "longitude": -73.990455
+    }
+  },
+  {
+    "rating": 4.5,
+    "mobile_url": "http://m.yelp.com/biz/4th-avenue-pub-brooklyn?utm_campaign=yelp_api&utm_medium=api_v2_search&utm_source=JPmz_ORwBuWxIBf5hAMb2w",
+    "name": "4th Avenue Pub",
+    "phone": "7186432273",
+    "location": {
+      "latitude": 40.68228,
+      "longitude": -73.9800099
+    }
+  },
+  {
+    "rating": 4.0,
+    "mobile_url": "http://m.yelp.com/biz/george-keeley-new-york?utm_campaign=yelp_api&utm_medium=api_v2_search&utm_source=JPmz_ORwBuWxIBf5hAMb2w",
+    "name": "George Keeley",
+    "phone": "2128730251",
+    "location": {
+      "latitude": 40.785831451416,
+      "longitude": -73.9759674072266
+    }
+  },
+  {
+    "rating": 4.0,
+    "mobile_url": "http://m.yelp.com/biz/blind-tiger-ale-house-new-york?utm_campaign=yelp_api&utm_medium=api_v2_search&utm_source=JPmz_ORwBuWxIBf5hAMb2w",
+    "name": "Blind Tiger Ale House",
+    "phone": "2124624682",
+    "location": {
+      "latitude": 40.731926,
+      "longitude": -74.003223
+    }
+  },
+  {
+    "rating": 4.0,
+    "mobile_url": "http://m.yelp.com/biz/the-four-faced-liar-new-york?utm_campaign=yelp_api&utm_medium=api_v2_search&utm_source=JPmz_ORwBuWxIBf5hAMb2w",
+    "name": "The Four-Faced Liar",
+    "phone": "2122068959",
+    "location": {
+      "latitude": 40.73218,
+      "longitude": -74.00142
+    }
+  },
+  {
+    "rating": 5.0,
+    "mobile_url": "http://m.yelp.com/biz/north-pole-pub-brooklyn?utm_campaign=yelp_api&utm_medium=api_v2_search&utm_source=JPmz_ORwBuWxIBf5hAMb2w",
+    "name": "North Pole Pub",
+    "phone": "7188570049",
+    "location": {
+      "latitude": 40.68154,
+      "longitude": -73.9774
+    }
+  },
+  {
+    "rating": 4.0,
+    "mobile_url": "http://m.yelp.com/biz/woodrows-new-york?utm_campaign=yelp_api&utm_medium=api_v2_search&utm_source=JPmz_ORwBuWxIBf5hAMb2w",
+    "name": "Woodrow's",
+    "phone": "2126760300",
+    "location": {
+      "latitude": 40.7140586525202,
+      "longitude": -74.0092921257019
+    }
+  },
+  {
+    "rating": 4.5,
+    "mobile_url": "http://m.yelp.com/biz/judge-roy-bean-public-house-new-york?utm_campaign=yelp_api&utm_medium=api_v2_search&utm_source=JPmz_ORwBuWxIBf5hAMb2w",
+    "name": "Judge Roy Bean Public House",
+    "phone": "2122628300",
+    "location": {
+      "latitude": 40.7629158108786,
+      "longitude": -73.9761248066812
+    }
+  },
+  {
+    "rating": 4.0,
+    "mobile_url": "http://m.yelp.com/biz/smithfield-new-york?utm_campaign=yelp_api&utm_medium=api_v2_search&utm_source=JPmz_ORwBuWxIBf5hAMb2w",
+    "name": "Smithfield",
+    "phone": "2129299677",
+    "location": {
+      "latitude": 40.7449,
+      "longitude": -73.993641
+    }
+  },
+  {
+    "rating": 4.5,
+    "mobile_url": "http://m.yelp.com/biz/the-owl-farm-brooklyn?utm_campaign=yelp_api&utm_medium=api_v2_search&utm_source=JPmz_ORwBuWxIBf5hAMb2w",
+    "name": "The Owl Farm",
+    "phone": "7184994988",
+    "location": {
+      "latitude": 40.669605,
+      "longitude": -73.986595
+    }
+  },
+  {
+    "rating": 4.0,
+    "mobile_url": "http://m.yelp.com/biz/11th-street-bar-new-york?utm_campaign=yelp_api&utm_medium=api_v2_search&utm_source=JPmz_ORwBuWxIBf5hAMb2w",
+    "name": "11th Street Bar",
+    "phone": "2129823929",
+    "location": {
+      "latitude": 40.7280197143555,
+      "longitude": -73.9812774658203
+    }
+  },
+  {
+    "rating": 4.5,
+    "mobile_url": "http://m.yelp.com/biz/carraghers-pub-and-restaurant-new-york?utm_campaign=yelp_api&utm_medium=api_v2_search&utm_source=JPmz_ORwBuWxIBf5hAMb2w",
+    "name": "Carragher's Pub & Restaurant",
+    "phone": "6463701545",
+    "location": {
+      "latitude": 40.7543734,
+      "longitude": -73.9892388
+    }
+  },
+  {
+    "rating": 4.0,
+    "mobile_url": "http://m.yelp.com/biz/jimmys-corner-new-york?utm_campaign=yelp_api&utm_medium=api_v2_search&utm_source=JPmz_ORwBuWxIBf5hAMb2w",
+    "name": "Jimmy's Corner",
+    "phone": "2122219510",
+    "location": {
+      "latitude": 40.756599,
+      "longitude": -73.984832
+    }
+  },
+  {
+    "rating": 4.5,
+    "mobile_url": "http://m.yelp.com/biz/brooklyn-ice-house-brooklyn?utm_campaign=yelp_api&utm_medium=api_v2_search&utm_source=JPmz_ORwBuWxIBf5hAMb2w",
+    "name": "Brooklyn Ice House",
+    "phone": "7182221865",
+    "location": {
+      "latitude": 40.67919,
+      "longitude": -74.011099
+    }
+  },
+  {
+    "rating": 4.0,
+    "mobile_url": "http://m.yelp.com/biz/radegast-hall-and-biergarten-brooklyn?utm_campaign=yelp_api&utm_medium=api_v2_search&utm_source=JPmz_ORwBuWxIBf5hAMb2w",
+    "name": "Radegast Hall and Biergarten",
+    "phone": "7189633973",
+    "location": {
+      "latitude": 40.71664,
+      "longitude": -73.96165
+    }
+  },
+  {
+    "rating": 3.5,
+    "mobile_url": "http://m.yelp.com/biz/henry-street-ale-house-brooklyn?utm_campaign=yelp_api&utm_medium=api_v2_search&utm_source=JPmz_ORwBuWxIBf5hAMb2w",
+    "name": "Henry Street Ale House",
+    "phone": "7185224801",
+    "location": {
+      "latitude": 40.6991054,
+      "longitude": -73.9923515
+    }
+  },
+  {
+    "rating": 4.5,
+    "mobile_url": "http://m.yelp.com/biz/the-monro-pub-brooklyn?utm_campaign=yelp_api&utm_medium=api_v2_search&utm_source=JPmz_ORwBuWxIBf5hAMb2w",
+    "name": "The Monro Pub",
+    "phone": "7184992005",
+    "location": {
+      "latitude": 40.6677448,
+      "longitude": -73.9873605
+    }
+  }
+]
