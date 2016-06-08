@@ -24,7 +24,11 @@
     letter-spacing: 0;
 }
 
+<<<<<<< HEAD
 html, body, #map{
+=======
+html,body,#map{
+>>>>>>> 1e1cbc738ca627b501ef28688300961d60fa9281
     height: 100%;
     width: 100%;
     padding: 0;
