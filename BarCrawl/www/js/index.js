@@ -48,8 +48,10 @@ var app = {
 
         var latitude = crd.latitude;
         var longitude = crd.longitude;
+
+        console.log(longitude, latitude);
         
-        require(['esri/urlUtils','esri/map','esri/tasks/RouteTask', 'dojo/domReady', 'dijit/layout/ContentPane'], function(
+        require(['esri/urlUtils','esri/map','esri/tasks/RouteTask', 'dojo/domReady!', 'dijit/layout/ContentPane'], function(
               urlUtils,Map
           ){
           var map = new Map("map",{
@@ -57,6 +59,10 @@ var app = {
               center:[longitude, latitude],
               zoom: 18
           });
+        });
+
+        require(["esri/tasks/RouteTask"], function(RouteTask) {
+          
         });
 
       };
