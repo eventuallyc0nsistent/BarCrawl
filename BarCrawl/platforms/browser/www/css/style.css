@@ -1,3 +1,11 @@
+/* Full screen map */
+html, body, #map{
+    height: 100%;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+}
+
 .logo {
 	margin-top:20%;
 	text-align:center;
@@ -22,15 +30,4 @@
     font-weight: 700;
     color: rgba(52, 73, 94, .3);
     letter-spacing: 0;
-}
-
-<<<<<<< HEAD
-html, body, #map{
-=======
-html,body,#map{
->>>>>>> 1e1cbc738ca627b501ef28688300961d60fa9281
-    height: 100%;
-    width: 100%;
-    padding: 0;
-    margin: 0;
 }
